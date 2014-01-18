@@ -9,6 +9,7 @@ class Service
 	private $version = 'v1';
 	private $client;
 	private $endpoint = 'https://api.userapp.io';
+	private $userToken;
 
 	public function __construct($appId, $apiToken, $client)
 	{
@@ -49,6 +50,18 @@ class Service
 	{
 		$this->client = $client;
 	}
+	public function getUserToken()
+	{
+		return $this->userToken;
+	}
+	public function setUserToken($token)
+	{
+		$this->userToken = $token;
+	}
+	public function clearUserToken()
+	{
+		$this->setUserToken(null);
+	}
 
 	public function __get($param)
 	{
@@ -60,15 +73,21 @@ class Service
 		}
 	}
 
-	public function send($action, $data)
+	public function send($action, $data = array())
 	{
 		$client = $this->getClient();
 		$client->setBaseUrl($this->endpoint);
+
 		$url = '/'.$this->version.'/'.$action;
+		$apiToken = ($this->getUserToken() !== null) 
+			? $this->getUserToken() : $this->getApiToken();
+
+		echo 'token is: '.$apiToken." (".$action.")\n\n";
 
 		$request = $client->post($url, null, $data)
-			->setAuth($this->getAppId(), $this->getApiToken());
+			->setAuth($this->getAppId(), $apiToken);
 		$response = $request->send();
+
 		return json_decode($response->getBody());
 	}
 }
