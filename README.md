@@ -14,8 +14,19 @@ $appId = '<your app ID>';
 $apiToken = '<your API token>';
 
 $service = new \Psecio\Userappio\Service($appId, $apiToken, $client);
-$result = $service->user->login('darthsidious', 'test1234');
 
+// User login
+$result = $service->user->login('darthsidious', 'test1234');
 print_r($result);
+
+// User save
+$result = $service->user->save(array(
+	'user_id' => $result->user_id,
+	'login' => 'darthsidious',
+	'first_name' => 'Test'
+));
+
+// User logoff
+$result = $service->user->logout();
 ```
 
