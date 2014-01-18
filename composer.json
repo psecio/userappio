@@ -1,0 +1,23 @@
+{
+    "name":"psecio/userappio",
+    "type":"library",
+    "description":"A library to work with the UserApp.io API",
+    "keywords":["api","userappio","library"],
+    "homepage":"https://github.com/psecio/userappio.git",
+    "license":"MIT",
+    "authors":[
+        {
+            "name":"Chris Cornutt",
+            "email":"ccornutt@phpdeveloper.org",
+            "homepage":"http://www.phpdeveloper.org/"
+        }
+    ],
+    "require":{
+        "php":">=5.3.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Psecio": "src/"
+        }
+    }
+}
