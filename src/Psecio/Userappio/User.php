@@ -10,4 +10,9 @@ class User extends Base
 			array('login' => $username, 'password' => $password)
 		);
 	}
+
+	public function save($data)
+	{
+		return $this->getService()->send('user.save', $data);
+	}
 }
