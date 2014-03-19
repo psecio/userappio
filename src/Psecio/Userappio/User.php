@@ -10,6 +10,11 @@ class User extends Base
 			'user.login',
 			array('login' => $username, 'password' => $password)
 		);
+
+        if (property_exists($result, 'error_code')) {
+            throw new AccessDeniedException($result->message);
+        }
+
 		// set the user token
 		$service->setUserToken($result->token);
 		$this->setService($service);
