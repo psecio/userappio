@@ -2,6 +2,8 @@
 
 namespace Psecio\Userappio;
 
+use Psr\Log\LoggerInterface;
+
 class Service
 {
 	private $appId;
@@ -10,6 +12,11 @@ class Service
 	private $client;
 	private $endpoint = 'https://api.userapp.io';
 	private $userToken;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
 	public function __construct($appId, $apiToken, $client)
 	{
@@ -62,6 +69,14 @@ class Service
 	{
 		$this->setUserToken(null);
 	}
+
+    /**
+     * @param \Psr\Log\LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
 	public function __get($param)
 	{
