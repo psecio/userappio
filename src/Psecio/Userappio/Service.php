@@ -97,7 +97,9 @@ class Service
 		$apiToken = ($this->getUserToken() !== null) 
 			? $this->getUserToken() : $this->getApiToken();
 
-		echo 'token is: '.$apiToken." (".$action.")\n\n";
+        if ($this->logger) {
+            $this->logger->info('token is: '.$apiToken." (".$action.")");
+        }
 
 		$request = $client->post($url, null, $data)
 			->setAuth($this->getAppId(), $apiToken);
