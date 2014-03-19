@@ -28,5 +28,8 @@ $result = $service->user->save(array(
 
 // User logoff
 $result = $service->user->logout();
+
+// Set logging
+$service->setLogger(new Logger())
 ```
 

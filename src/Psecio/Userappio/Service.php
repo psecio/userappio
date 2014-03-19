@@ -2,6 +2,8 @@
 
 namespace Psecio\Userappio;
 
+use Psr\Log\LoggerInterface;
+
 class Service
 {
 	private $appId;
@@ -10,6 +12,11 @@ class Service
 	private $client;
 	private $endpoint = 'https://api.userapp.io';
 	private $userToken;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
 	public function __construct($appId, $apiToken, $client)
 	{
@@ -63,6 +70,14 @@ class Service
 		$this->setUserToken(null);
 	}
 
+    /**
+     * @param \Psr\Log\LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
 	public function __get($param)
 	{
 		$class = '\\Psecio\\Userappio\\'.ucwords($param);
@@ -82,7 +97,9 @@ class Service
 		$apiToken = ($this->getUserToken() !== null) 
 			? $this->getUserToken() : $this->getApiToken();
 
-		echo 'token is: '.$apiToken." (".$action.")\n\n";
+        if ($this->logger) {
+            $this->logger->info('token is: '.$apiToken." (".$action.")");
+        }
 
 		$request = $client->post($url, null, $data)
 			->setAuth($this->getAppId(), $apiToken);
